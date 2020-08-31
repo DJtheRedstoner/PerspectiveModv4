@@ -2,7 +2,7 @@
 
 A remake of [Perspective Mod v3 by canelex](https://github.com/Canelex/PerspectiveMod) with bug fixes and additional functionality
 
-![Image of mod](perspectivemod.png)
+![Image of mod](.github/perspectivemod.png)
 
 Features:
 - Mouse button support
