@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.7.10",
+  "package": "me.djtheredstoner.perspectivemod.mixins",
+  "refmap": "mixins.perspectivemod.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntityRenderer",
+    "MixinRenderManager"
+  ]
+}

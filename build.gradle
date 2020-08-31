@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven { url = "https://repo.spongepowered.org/maven" }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+apply plugin: "com.github.johnrengelman.shadow"
+
+version = "4.0"
+group= "me.djtheredstoner"
+archivesBaseName = "PerspectiveModv4"
+String modid = "djperspectivemod"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+compileJava.options.encoding = 'UTF-8'
+
+sourceSets {
+    main {
+        output.resourcesDir = java.outputDir
+    }
+}
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+
+    mappings = "stable_22"
+}
+
+repositories {
+    jcenter()
+    maven { url = "https://repo.spongepowered.org/maven" }
+}
+
+dependencies {
+    implementation 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+}
+
+mixin {
+    add sourceSets.main, "mixins.${modid}.refmap.json"
+}
+
+jar {
+    enabled = false
+}
+
+shadowJar {
+    archiveName = tasks.jar.archiveName
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    classifier = ''
+
+    manifest.attributes(
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'MixinConfigs': "mixins.${modid}.json",
+            'FMLCorePluginContainsFMLMod': true,
+            "ForceLoadAsMod": true,
+            'ModSide': 'CLIENT'
+    )
+
+    exclude('dummyThing')
+    exclude('LICENSE.txt')
+    exclude('META-INF/LICENSE.txt')
+    exclude('META-INF/NOTICE.txt')
+}
+
+reobfJar.dependsOn tasks.shadowJar
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
