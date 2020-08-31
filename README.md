@@ -12,4 +12,6 @@ Features:
 
 Mod can be enabled and disabled, and the mode can be changed with the `/perspectivemod` or `/pmod` commands.
 
-Note: Using this mod with other perspective mods may cause issues and is not recommended.
+Download the mod from the [releases](/releases) page.
+
+> Note: Using this mod with other perspective mods may cause issues and is not recommended.
