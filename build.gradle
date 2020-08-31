@@ -21,7 +21,8 @@ apply plugin: "com.github.johnrengelman.shadow"
 version = "4.0"
 group= "me.djtheredstoner"
 archivesBaseName = "PerspectiveModv4"
-String modid = "djperspectivemod"
+
+def modid = "djperspectivemod"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,8 +37,8 @@ sourceSets {
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
-
     mappings = "stable_22"
+    clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModLoadingPlugin"
 }
 
 repositories {
@@ -46,7 +47,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+    implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'gson'
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+    }
 }
 
 mixin {
@@ -67,7 +72,8 @@ shadowJar {
             'MixinConfigs': "mixins.${modid}.json",
             'FMLCorePluginContainsFMLMod': true,
             "ForceLoadAsMod": true,
-            'ModSide': 'CLIENT'
+            'ModSide': 'CLIENT',
+            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveTweaker"
     )
 
     exclude('dummyThing')

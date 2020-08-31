@@ -22,7 +22,6 @@ import org.lwjgl.opengl.Display;
 
 import java.io.File;
 
-
 @Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.0", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
@@ -42,9 +41,7 @@ public class PerspectiveMod {
     public void preInit(FMLPreInitializationEvent event) {
         File configFile = new File(event.getModConfigurationDirectory(), "perspectivemodv4.json");
         loadConfig(configFile);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            saveConfig(configFile);
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> saveConfig(configFile)));
     }
 
     @Mod.EventHandler
@@ -56,21 +53,21 @@ public class PerspectiveMod {
 
     @SubscribeEvent
     public void onKeyEvent(InputEvent.KeyInputEvent event) {
-        if(perspectiveKey.getKeyCode() > 0) {
+        if (perspectiveKey.getKeyCode() > 0) {
             onPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
         }
     }
 
     @SubscribeEvent
     public void onMouseEvent(InputEvent.MouseInputEvent event) {
-        if(perspectiveKey.getKeyCode() < 0) {
+        if (perspectiveKey.getKeyCode() < 0) {
             onPressed(Mouse.getEventButton() - 100, Mouse.getEventButtonState());
         }
     }
 
     public static void onPressed(int eventKey, boolean state) {
         if (eventKey == perspectiveKey.getKeyCode()) {
-            if(config.modEnabled) {
+            if (config.modEnabled) {
                 if (state) {
                     perspectiveToggled = !perspectiveToggled;
                     cameraYaw = mc.thePlayer.rotationYaw;
@@ -86,7 +83,7 @@ public class PerspectiveMod {
                     perspectiveToggled = false;
                     mc.gameSettings.thirdPersonView = previousPerspective;
                 }
-            } else if(perspectiveToggled) {
+            } else if (perspectiveToggled) {
                 perspectiveToggled = false;
                 mc.gameSettings.thirdPersonView = previousPerspective;
             }
@@ -94,10 +91,8 @@ public class PerspectiveMod {
     }
 
     public static boolean overrideMouse() {
-        if (mc.inGameHasFocus && Display.isActive())
-        {
-            if (!perspectiveToggled)
-            {
+        if (mc.inGameHasFocus && Display.isActive()) {
+            if (!perspectiveToggled) {
                 return true;
             }
 
@@ -119,7 +114,7 @@ public class PerspectiveMod {
     }
 
     public static void loadConfig(File configFile) {
-        if(configFile.exists()) {
+        if (configFile.exists()) {
             try {
                 String json = FileUtils.readFileToString(configFile);
                 config = gson.fromJson(json, PerspectiveModConfig.class);
@@ -140,6 +135,5 @@ public class PerspectiveMod {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    };
-
+    }
 }

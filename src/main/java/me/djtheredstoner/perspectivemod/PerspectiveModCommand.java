@@ -5,7 +5,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PerspectiveModCommand extends CommandBase {
@@ -19,39 +19,37 @@ public class PerspectiveModCommand extends CommandBase {
 
     @Override
     public List<String> getCommandAliases() {
-        List<String> aliases = new ArrayList<>();
-        aliases.add("pmod");
-        return aliases;
+        return Collections.singletonList("pmod");
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return  "§6Perspective Mod Help\n" +
-                "§b/pmod <enable|disable> §7- Enables or disables the mod.\n" +
-                "§b/pmod mode <hold|toggle> §7- Changes the mode.\n" +
-                "§7Edit the keybind in the minecraft controls menu.";
+        return "§6Perspective Mod Help\n" +
+            "§b/pmod <enable|disable> §7- Enables or disables the mod.\n" +
+            "§b/pmod mode <hold|toggle> §7- Changes the mode.\n" +
+            "§7Edit the keybind in the minecraft controls menu.";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        if(args.length > 0 && args.length < 3) {
+        if (args.length > 0 && args.length < 3) {
             String arg = args[0];
-            if(arg.equalsIgnoreCase("enable")) {
+            if (arg.equalsIgnoreCase("enable")) {
                 PerspectiveMod.config.modEnabled = true;
 
                 sendMessage(sender, "§bMod §aEnabled§b.");
-            } else if(arg.equalsIgnoreCase("disable")) {
+            } else if (arg.equalsIgnoreCase("disable")) {
                 PerspectiveMod.config.modEnabled = false;
 
                 sendMessage(sender, "§bMod §cDisabled§b.");
-            } else if(arg.equalsIgnoreCase("mode")) {
-                if(args.length == 2) {
+            } else if (arg.equalsIgnoreCase("mode")) {
+                if (args.length == 2) {
                     String mode = args[1];
-                    if(mode.equalsIgnoreCase("hold")) {
+                    if (mode.equalsIgnoreCase("hold")) {
                         PerspectiveMod.config.holdMode = true;
 
                         sendMessage(sender, "§bMode set to hold.");
-                    } else if(mode.equalsIgnoreCase("toggle")) {
+                    } else if (mode.equalsIgnoreCase("toggle")) {
                         PerspectiveMod.config.holdMode = false;
 
                         sendMessage(sender, "§bMode set to toggle.");
