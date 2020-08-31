@@ -12,7 +12,7 @@ public class PerspectiveModLoadingPlugin implements IFMLLoadingPlugin {
     public PerspectiveModLoadingPlugin() {
         MixinBootstrap.init();
 
-        Mixins.addConfiguration("mixins.perspectivemod.json");
+        Mixins.addConfiguration("mixins.djperspectivemod.json");
     }
 
     @Override

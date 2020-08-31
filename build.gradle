@@ -78,6 +78,12 @@ shadowJar {
 
 reobfJar.dependsOn tasks.shadowJar
 
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+    }
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
