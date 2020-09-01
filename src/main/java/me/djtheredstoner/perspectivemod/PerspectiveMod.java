@@ -6,6 +6,7 @@ import me.djtheredstoner.perspectivemod.config.PerspectiveModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -65,6 +66,13 @@ public class PerspectiveMod {
         }
     }
 
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        if(event.gui != null) {
+            resetPerspective();
+        }
+    }
+
     public static void onPressed(int eventKey, boolean state) {
         if (eventKey == perspectiveKey.getKeyCode()) {
             if (config.modEnabled) {
@@ -80,12 +88,10 @@ public class PerspectiveMod {
                         mc.gameSettings.thirdPersonView = previousPerspective;
                     }
                 } else if (config.holdMode) {
-                    perspectiveToggled = false;
-                    mc.gameSettings.thirdPersonView = previousPerspective;
+                    resetPerspective();
                 }
             } else if (perspectiveToggled) {
-                perspectiveToggled = false;
-                mc.gameSettings.thirdPersonView = previousPerspective;
+                resetPerspective();
             }
         }
     }
@@ -111,6 +117,11 @@ public class PerspectiveMod {
         }
 
         return false;
+    }
+
+    public static void resetPerspective() {
+        perspectiveToggled = false;
+        mc.gameSettings.thirdPersonView = previousPerspective;
     }
 
     public static void loadConfig(File configFile) {

@@ -18,11 +18,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "org.spongepowered.mixin"
 apply plugin: "com.github.johnrengelman.shadow"
 
-version = "4.0"
 group= "me.djtheredstoner"
-archivesBaseName = "PerspectiveModv4"
-
-def modid = "djperspectivemod"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
