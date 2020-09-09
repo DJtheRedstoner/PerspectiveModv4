@@ -9,14 +9,10 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "org.spongepowered.mixin"
-apply plugin: "com.github.johnrengelman.shadow"
 
 group= "me.djtheredstoner"
 
@@ -34,56 +30,18 @@ minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     mappings = "stable_22"
-    clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModLoadingPlugin"
-}
-
-repositories {
-    jcenter()
-    maven { url = "https://repo.spongepowered.org/maven" }
-}
-
-dependencies {
-    implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
-        exclude module: 'gson'
-        exclude module: 'guava'
-        exclude module: 'commons-io'
-    }
-}
-
-mixin {
-    add sourceSets.main, "mixins.${modid}.refmap.json"
+    clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
 }
 
 jar {
-    enabled = false
-}
-
-shadowJar {
-    archiveName = tasks.jar.archiveName
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    classifier = ''
 
     manifest.attributes(
-            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-            'MixinConfigs': "mixins.${modid}.json",
             'FMLCorePluginContainsFMLMod': true,
             "ForceLoadAsMod": true,
             'ModSide': 'CLIENT',
-            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveTweaker"
+            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
     )
-
-    exclude('dummyThing')
-    exclude('LICENSE.txt')
-    exclude('META-INF/LICENSE.txt')
-    exclude('META-INF/NOTICE.txt')
-}
-
-reobfJar.dependsOn tasks.shadowJar
-
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-    }
 }
 
 processResources

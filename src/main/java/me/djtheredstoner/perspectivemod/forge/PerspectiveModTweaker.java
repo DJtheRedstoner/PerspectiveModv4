@@ -1,25 +1,22 @@
 package me.djtheredstoner.perspectivemod.forge;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import me.djtheredstoner.perspectivemod.asm.ClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-// this one will be loaded in prod, used to detect Canelex's perspective mod
-@IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
-public class PerspectiveTweaker implements IFMLLoadingPlugin {
 
-    public PerspectiveTweaker() {
+@IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
+public class PerspectiveModTweaker implements IFMLLoadingPlugin {
+
+    public PerspectiveModTweaker() {
         File mods = new File(Launch.minecraftHome, "mods");
 
         if (!mods.exists()) {
@@ -55,7 +52,7 @@ public class PerspectiveTweaker implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[0];
+        return new String[]{ClassTransformer.class.getName()};
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -23,7 +24,7 @@ import org.lwjgl.opengl.Display;
 
 import java.io.File;
 
-@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.0", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
+@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.1", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
@@ -68,7 +69,14 @@ public class PerspectiveMod {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
-        if(event.gui != null) {
+        if (event.gui != null && perspectiveToggled && config.holdMode) {
+            resetPerspective();
+        }
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event) {
+        if (perspectiveToggled) {
             resetPerspective();
         }
     }
