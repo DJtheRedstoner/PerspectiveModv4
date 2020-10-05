@@ -13,7 +13,7 @@ Features:
 - Invert pitch/Y axis mode
 - Sk1er ModCore Integration
 
-Mod can be enabled and disabled, and the mode can be changed with the `/perspectivemod` or `/pmod` commands.
+Options can be configured with the `/perspectivemod` or `/pmod` commands.
 
 Download the mod from the [releases](https://github.com/DJtheRedstoner/PerspectiveModv4/releases) page.
 
