@@ -5,7 +5,8 @@ buildscript {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
-        maven { url = "https://repo.spongepowered.org/maven" }
+
+        flatDir dirs: 'libs'
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
@@ -31,6 +32,10 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
+}
+
+dependencies {
+    provided files("libs/modcore.jar")
 }
 
 jar {
@@ -62,4 +67,6 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+
+    from(file("LICENSE"))
 }

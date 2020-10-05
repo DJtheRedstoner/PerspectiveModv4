@@ -26,4 +26,7 @@ public class EntityRendererHook {
         return PerspectiveMod.overrideMouse();
     }
 
+    public static double distanceHook(double value) {
+        return value;
+    }
 }

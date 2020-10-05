@@ -3,6 +3,8 @@ package me.djtheredstoner.perspectivemod.asm.transformers;
 import me.djtheredstoner.perspectivemod.asm.ITransformer;
 import org.objectweb.asm.tree.*;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import static org.objectweb.asm.Opcodes.*;
@@ -37,7 +39,7 @@ public class EntityRendererTransformer implements ITransformer {
                         String ownerName = mapClassName(insn.owner);
                         String fieldName = mapFieldNameFromNode(insn);
 
-                        if(ownerName.equals("net/minecraft/entity/Entity" )&& insn.desc.equals("F")) {
+                        if(ownerName.equals("net/minecraft/entity/Entity" ) && insn.desc.equals("F")) {
 
                             InsnList insnList = null;
 
@@ -65,9 +67,14 @@ public class EntityRendererTransformer implements ITransformer {
                                 method.instructions.remove(insn);
                             }
                         }
-                    }
-                }
+                    } /*else if (next.getOpcode() == DLOAD) {
+                        VarInsnNode insn = (VarInsnNode) next;
 
+                        if(insn.getPrevious().getOpcode() == FCONST_0 && insn.getNext().getOpcode() == DNEG) {
+                            method.instructions.insert(insn, insertDistanceHook());
+                        }
+                    }*/
+                }
             } else if (methodName.equals("updateCameraAndRender") || methodName.equals("func_181560_a")) {
 
                 Iterator<AbstractInsnNode> iterator = method.instructions.iterator();
@@ -89,10 +96,15 @@ public class EntityRendererTransformer implements ITransformer {
                     }
                 }
             }
+            //Poggers Ultra FPS Praseodymium mode.
+            /* else if (methodName.equals("renderWorldPass") || methodName.equals("func_175068_a")) {
+
+                method.instructions.insert(method.instructions.getFirst(), new InsnNode(RETURN));
+            }*/
         }
     }
 
-    public InsnList insertRotationHook(String field) {
+    private InsnList insertRotationHook(String field) {
         InsnList list = new InsnList();
 
         list.add(new MethodInsnNode(INVOKESTATIC, HOOK_CLASS, field + "Hook", "(Lnet/minecraft/entity/Entity;)F", false));
@@ -100,10 +112,18 @@ public class EntityRendererTransformer implements ITransformer {
         return list;
     }
 
-    public InsnList insertMouseHook() {
+    private InsnList insertMouseHook() {
         InsnList list = new InsnList();
 
         list.add(new MethodInsnNode(INVOKESTATIC, HOOK_CLASS, "mouseHook", "(Lnet/minecraft/client/Minecraft;)Z", false));
+
+        return list;
+    }
+
+    private InsnList insertDistanceHook() {
+        InsnList list = new InsnList();
+
+        list.add(new MethodInsnNode(INVOKESTATIC, HOOK_CLASS, "distanceHook", "(D)D", false));
 
         return list;
     }

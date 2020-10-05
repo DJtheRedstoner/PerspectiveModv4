@@ -7,8 +7,11 @@ A remake of [Perspective Mod v3 by canelex](https://github.com/Canelex/Perspecti
 Features:
 - Mouse button support
 - Nametags face camera
+- Config GUI
 - Mod can be enabled/disabled
 - Hold and toggle modes
+- Invert pitch/Y axis mode
+- Sk1er ModCore Integration
 
 Mod can be enabled and disabled, and the mode can be changed with the `/perspectivemod` or `/pmod` commands.
 

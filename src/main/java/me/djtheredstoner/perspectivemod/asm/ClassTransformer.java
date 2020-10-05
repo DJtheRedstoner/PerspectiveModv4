@@ -2,6 +2,7 @@ package me.djtheredstoner.perspectivemod.asm;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import me.djtheredstoner.perspectivemod.asm.transformers.ActiveRenderInfoTransformer;
 import me.djtheredstoner.perspectivemod.asm.transformers.EntityRendererTransformer;
 import me.djtheredstoner.perspectivemod.asm.transformers.MinecraftTransformer;
 import me.djtheredstoner.perspectivemod.asm.transformers.RenderManagerTransformer;
@@ -34,6 +35,7 @@ public class ClassTransformer implements IClassTransformer {
         registerTransformer(new EntityRendererTransformer());
         registerTransformer(new RenderManagerTransformer());
         registerTransformer(new MinecraftTransformer());
+        registerTransformer(new ActiveRenderInfoTransformer());
     }
 
     private void registerTransformer(ITransformer transformer) {
