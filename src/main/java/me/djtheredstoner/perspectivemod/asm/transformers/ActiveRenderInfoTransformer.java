@@ -31,7 +31,7 @@ public class ActiveRenderInfoTransformer implements ITransformer {
                         FieldInsnNode insn = (FieldInsnNode) next;
 
                         String ownerName = mapClassName(insn.owner);
-                        String fieldName = mapClassName(insn.name);
+                        String fieldName = mapFieldNameFromNode(insn);
 
                         if(ownerName.equals("net/minecraft/entity/player/EntityPlayer") && insn.desc.equals("F")) {
                             InsnList insnList = null;

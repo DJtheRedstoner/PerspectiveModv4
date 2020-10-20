@@ -118,6 +118,7 @@ public class PerspectiveMod {
 
             if (cameraPitch > 90) cameraPitch = 90;
             if (cameraPitch < -90) cameraPitch = -90;
+            mc.renderGlobal.setDisplayListEntitiesDirty();
         }
 
         return false;
