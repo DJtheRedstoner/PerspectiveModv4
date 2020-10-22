@@ -6,8 +6,8 @@ import net.minecraft.client.settings.GameSettings;
 public class MinecraftHook {
 
     public static void thirdPersonHook(GameSettings gameSettings, int value) {
-        if(PerspectiveMod.perspectiveToggled) {
-            PerspectiveMod.resetPerspective();
+        if(PerspectiveMod.instance.perspectiveToggled) {
+            PerspectiveMod.instance.resetPerspective();
         } else {
             gameSettings.thirdPersonView = value;
         }

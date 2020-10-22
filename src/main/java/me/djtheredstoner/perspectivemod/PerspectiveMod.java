@@ -3,6 +3,7 @@ package me.djtheredstoner.perspectivemod;
 import me.djtheredstoner.perspectivemod.commands.PerspectiveModCommand;
 import me.djtheredstoner.perspectivemod.config.PerspectiveModConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -12,32 +13,35 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 @Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.2", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
-    private static final Minecraft mc = Minecraft.getMinecraft();
-    private static final KeyBinding perspectiveKey = new KeyBinding("Perspective", Keyboard.KEY_LMENU, "Perspective Mod");
-    private static final Logger logger = LogManager.getLogger("Perspective Mod v4");
+    @Mod.Instance
+    public static PerspectiveMod instance;
 
-    public static PerspectiveModConfig config;
+    public final PerspectiveModConfig config = new PerspectiveModConfig();
 
-    public static boolean perspectiveToggled = false;
-    public static float cameraYaw = 0F;
-    public static float cameraPitch = 0F;
-    private static int previousPerspective = 0;
+    public boolean perspectiveToggled = false;
+    public float cameraYaw = 0F;
+    public float cameraPitch = 0F;
+
+    private int previousPerspective = 0;
+    private boolean prevState = false;
+
+    private final Minecraft mc = Minecraft.getMinecraft();
+    private final KeyBinding perspectiveKey = new KeyBinding("Perspective", Keyboard.KEY_LMENU, "Perspective Mod");
+    private final Logger logger = LogManager.getLogger("Perspective Mod v4");
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
 
-        config = new PerspectiveModConfig();
         config.preload();
 
         ClientRegistry.registerKeyBinding(perspectiveKey);
@@ -46,16 +50,11 @@ public class PerspectiveMod {
     }
 
     @SubscribeEvent
-    public void onKeyEvent(InputEvent.KeyInputEvent event) {
-        if (perspectiveKey.getKeyCode() > 0) {
-            onPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
-        }
-    }
-
-    @SubscribeEvent
-    public void onMouseEvent(InputEvent.MouseInputEvent event) {
-        if (perspectiveKey.getKeyCode() < 0) {
-            onPressed(Mouse.getEventButton() - 100, Mouse.getEventButtonState());
+    public void tick(TickEvent.RenderTickEvent event) {
+        boolean down = GameSettings.isKeyDown(perspectiveKey);
+        if(down != prevState && mc.currentScreen == null) {
+            prevState = down;
+            onPressed(0, down);
         }
     }
 
@@ -73,30 +72,28 @@ public class PerspectiveMod {
         }
     }
 
-    public static void onPressed(int eventKey, boolean state) {
-        if (eventKey == perspectiveKey.getKeyCode()) {
-            if (config.modEnabled) {
-                if (state) {
-                    perspectiveToggled = !perspectiveToggled;
-                    cameraYaw = mc.thePlayer.rotationYaw;
-                    cameraPitch = mc.thePlayer.rotationPitch;
+    public void onPressed(int eventKey, boolean state) {
+        if (config.modEnabled) {
+            if (state) {
+                perspectiveToggled = !perspectiveToggled;
+                cameraYaw = mc.thePlayer.rotationYaw;
+                cameraPitch = mc.thePlayer.rotationPitch;
 
-                    if (perspectiveToggled) {
-                        previousPerspective = mc.gameSettings.thirdPersonView;
-                        mc.gameSettings.thirdPersonView = 1;
-                    } else {
-                        mc.gameSettings.thirdPersonView = previousPerspective;
-                    }
-                } else if (config.holdMode) {
-                    resetPerspective();
+                if (perspectiveToggled) {
+                    previousPerspective = mc.gameSettings.thirdPersonView;
+                    mc.gameSettings.thirdPersonView = 1;
+                } else {
+                    mc.gameSettings.thirdPersonView = previousPerspective;
                 }
-            } else if (perspectiveToggled) {
+            } else if (config.holdMode) {
                 resetPerspective();
             }
+        } else if (perspectiveToggled) {
+            resetPerspective();
         }
     }
 
-    public static boolean overrideMouse() {
+    public boolean overrideMouse() {
         if (mc.inGameHasFocus && Display.isActive()) {
             if (!perspectiveToggled) {
                 return true;
@@ -124,7 +121,7 @@ public class PerspectiveMod {
         return false;
     }
 
-    public static void resetPerspective() {
+    public void resetPerspective() {
         perspectiveToggled = false;
         mc.gameSettings.thirdPersonView = previousPerspective;
     }

@@ -37,7 +37,7 @@ public class PerspectiveModCommand extends CommandBase {
         if (args.length == 1 && args[0].equals("eW91IGZvdW5kIGEgc2VjcmV0IQo=")) {
             sendMessage("you found a secret!");
         } else {
-            ModCore.getInstance().getGuiHandler().open(PerspectiveMod.config.gui());
+            ModCore.getInstance().getGuiHandler().open(PerspectiveMod.instance.config.gui());
         }
     }
 
