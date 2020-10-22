@@ -4,6 +4,8 @@ A remake of [Perspective Mod v3 by canelex](https://github.com/Canelex/Perspecti
 
 ![Image of mod](.github/perspectivemod.png)
 
+[![Discord Link](https://img.shields.io/discord/767833575185580062?color=blueviolet&label=discord)](https://discord.gg/k8fnyEr)
+
 Features:
 - Mouse button support
 - Nametags face camera
