@@ -52,9 +52,9 @@ public class PerspectiveMod {
     @SubscribeEvent
     public void tick(TickEvent.RenderTickEvent event) {
         boolean down = GameSettings.isKeyDown(perspectiveKey);
-        if(down != prevState && mc.currentScreen == null) {
+        if(down != prevState && mc.currentScreen == null && mc.theWorld != null && mc.thePlayer != null) {
             prevState = down;
-            onPressed(0, down);
+            onPressed(down);
         }
     }
 
@@ -72,7 +72,7 @@ public class PerspectiveMod {
         }
     }
 
-    public void onPressed(int eventKey, boolean state) {
+    public void onPressed(boolean state) {
         if (config.modEnabled) {
             if (state) {
                 perspectiveToggled = !perspectiveToggled;
