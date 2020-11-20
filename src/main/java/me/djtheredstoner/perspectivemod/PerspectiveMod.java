@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.3", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
+@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.4", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
     @Mod.Instance
@@ -33,6 +33,11 @@ public class PerspectiveMod {
 
     private int previousPerspective = 0;
     private boolean prevState = false;
+
+    private boolean forwardPressed = false;
+    private boolean backwardPressed = false;
+    private boolean leftPressed = true;
+    private boolean rightPressed = true;
 
     private final Minecraft mc = Minecraft.getMinecraft();
     private final KeyBinding perspectiveKey = new KeyBinding("Perspective", Keyboard.KEY_LMENU, "Perspective Mod");
@@ -52,9 +57,23 @@ public class PerspectiveMod {
     @SubscribeEvent
     public void tick(TickEvent.RenderTickEvent event) {
         boolean down = GameSettings.isKeyDown(perspectiveKey);
-        if(down != prevState && mc.currentScreen == null && mc.theWorld != null && mc.thePlayer != null) {
+        if (down != prevState && mc.currentScreen == null && mc.theWorld != null && mc.thePlayer != null) {
             prevState = down;
             onPressed(down);
+        }
+
+        if (config.blockStrafe && mc.currentScreen == null && mc.thePlayer != null) {
+            if (perspectiveToggled) {
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindLeft.getKeyCode(), false);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
+            }
+            else {
+                leftPressed = mc.gameSettings.keyBindLeft.isKeyDown();
+                rightPressed = mc.gameSettings.keyBindRight.isKeyDown();
+            }
+        }
+        else {
+            leftPressed = rightPressed = false;
         }
     }
 

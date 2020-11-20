@@ -35,6 +35,15 @@ public class PerspectiveModConfig extends Vigilant {
     )
     public boolean invertPitch = false;
 
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Block Strafe",
+            category = "General",
+            subcategory = "General",
+            description = "Briefly stops you from strafing when activated to stop you from falling of bridges."
+    )
+    public boolean blockStrafe = false;
+
     public PerspectiveModConfig() {
         super(new File("./config/perspectivemodv4.toml"));
         initialize();
