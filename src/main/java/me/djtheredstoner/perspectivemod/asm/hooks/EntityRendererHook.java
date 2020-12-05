@@ -23,7 +23,7 @@ public class EntityRendererHook {
     }
 
     public static boolean mouseHook(Minecraft minecraft) {
-        return PerspectiveMod.instance.overrideMouse();
+        return PerspectiveMod.instance == null ? false : PerspectiveMod.instance.overrideMouse();
     }
 
     public static double distanceHook(double value) {
