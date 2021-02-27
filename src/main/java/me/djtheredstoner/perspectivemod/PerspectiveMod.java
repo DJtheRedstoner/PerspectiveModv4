@@ -75,15 +75,13 @@ public class PerspectiveMod {
     public void onPressed(boolean state) {
         if (config.modEnabled) {
             if (state) {
-                perspectiveToggled = !perspectiveToggled;
                 cameraYaw = mc.thePlayer.rotationYaw;
                 cameraPitch = mc.thePlayer.rotationPitch;
 
                 if (perspectiveToggled) {
-                    previousPerspective = mc.gameSettings.thirdPersonView;
-                    mc.gameSettings.thirdPersonView = 1;
+                    resetPerspective();
                 } else {
-                    mc.gameSettings.thirdPersonView = previousPerspective;
+                    enterPerspective();
                 }
             } else if (config.holdMode) {
                 resetPerspective();
@@ -91,6 +89,17 @@ public class PerspectiveMod {
         } else if (perspectiveToggled) {
             resetPerspective();
         }
+    }
+
+    public void enterPerspective() {
+        perspectiveToggled = true;
+        previousPerspective = mc.gameSettings.thirdPersonView;
+        mc.gameSettings.thirdPersonView = 1;
+    }
+
+    public void resetPerspective() {
+        perspectiveToggled = false;
+        mc.gameSettings.thirdPersonView = previousPerspective;
     }
 
     public boolean overrideMouse() {
@@ -119,10 +128,5 @@ public class PerspectiveMod {
         }
 
         return false;
-    }
-
-    public void resetPerspective() {
-        perspectiveToggled = false;
-        mc.gameSettings.thirdPersonView = previousPerspective;
     }
 }
