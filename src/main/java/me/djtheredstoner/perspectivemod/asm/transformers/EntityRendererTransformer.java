@@ -3,8 +3,6 @@ package me.djtheredstoner.perspectivemod.asm.transformers;
 import me.djtheredstoner.perspectivemod.asm.ITransformer;
 import org.objectweb.asm.tree.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import static org.objectweb.asm.Opcodes.*;

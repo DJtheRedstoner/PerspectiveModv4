@@ -1,19 +1,24 @@
 buildscript {
     repositories {
-        jcenter()
+    	mavenCentral()
+        gradlePluginPortal()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
-
-        flatDir dirs: 'libs'
+        maven {
+            name = "jitpack"
+            url = "https://jitpack.io/"
+        }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+        classpath "com.github.asbyth:ForgeGradle:b13624b272"
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "com.github.johnrengelman.shadow"
 
 group= "me.djtheredstoner"
 
@@ -34,19 +39,50 @@ minecraft {
     clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
 }
 
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
+
+repositories {
+    mavenCentral()
+    maven { url = "https://repo.sk1er.club/repository/maven-public/" }
+    maven { url = "https://jitpack.io/" }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+}
+
 dependencies {
-    provided files("libs/modcore.jar")
+    embed "gg.essential:loader-launchwrapper:1.0.2"
+
+    implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
 }
 
 jar {
+    enabled = false
+}
+
+shadowJar {
+    archiveClassifier.set("")
+
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    configurations = [project.configurations.embed]
 
     manifest.attributes(
             'FMLCorePluginContainsFMLMod': true,
             "ForceLoadAsMod": true,
             'ModSide': 'CLIENT',
-            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
+            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker",
+            "TweakClass": "gg.essential.loader.stage0.EssentialSetupTweaker"
     )
+}
+
+reobfJar.dependsOn tasks.shadowJar
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+    }
 }
 
 processResources

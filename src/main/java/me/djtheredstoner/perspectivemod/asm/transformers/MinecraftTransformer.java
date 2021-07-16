@@ -36,7 +36,8 @@ public class MinecraftTransformer implements ITransformer {
                         String ownerName = mapClassName(insn.owner);
                         String fieldName = mapFieldNameFromNode(insn);
 
-                        if (ownerName.equals("net/minecraft/client/settings/GameSettings") && (fieldName.equals("thirdPersonView") || fieldName.equals("field_74320_O")) && insn.desc.equals("I")) {
+                        if (ownerName.equals("net/minecraft/client/settings/GameSettings") &&
+                            (fieldName.equals("thirdPersonView") || fieldName.equals("field_74320_O")) && insn.desc.equals("I")) {
                             method.instructions.insertBefore(insn, insertThirdPersonHook());
                             method.instructions.remove(insn);
                         }

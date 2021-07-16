@@ -1,7 +1,6 @@
 package me.djtheredstoner.perspectivemod.asm.transformers;
 
 import me.djtheredstoner.perspectivemod.asm.ITransformer;
-import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.objectweb.asm.tree.*;
 
 import java.util.Iterator;

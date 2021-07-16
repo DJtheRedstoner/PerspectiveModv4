@@ -40,12 +40,11 @@ public class PerspectiveMod {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
-
         config.preload();
 
         ClientRegistry.registerKeyBinding(perspectiveKey);
-        ClientCommandHandler.instance.registerCommand(new PerspectiveModCommand());
+        new PerspectiveModCommand("perspectivemod").register();
+        new PerspectiveModCommand("pmod").register();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -83,6 +82,7 @@ public class PerspectiveMod {
                 } else {
                     enterPerspective();
                 }
+                mc.renderGlobal.setDisplayListEntitiesDirty();
             } else if (config.holdMode) {
                 resetPerspective();
             }
@@ -100,6 +100,7 @@ public class PerspectiveMod {
     public void resetPerspective() {
         perspectiveToggled = false;
         mc.gameSettings.thirdPersonView = previousPerspective;
+        mc.renderGlobal.setDisplayListEntitiesDirty();
     }
 
     public boolean overrideMouse() {
