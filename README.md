@@ -13,7 +13,7 @@ Features:
 - Mod can be enabled/disabled
 - Hold and toggle modes
 - Invert pitch/Y axis mode
-- Sk1er ModCore Integration
+- Essential Integration
 
 Options can be configured with the `/perspectivemod` or `/pmod` commands.
 
