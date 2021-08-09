@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    embed "gg.essential:loader-launchwrapper:1.0.2"
+    embed "gg.essential:loader-launchwrapper:1.1.0"
 
     implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
 }

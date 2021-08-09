@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.3", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
+@Mod(modid = "djperspectivemod", name = "Perspective Mod v4", version = "4.5", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
     @Mod.Instance
