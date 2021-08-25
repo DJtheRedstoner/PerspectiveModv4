@@ -1,0 +1,16 @@
+[
+{
+  "modid": "djperspectivemod",
+  "name": "Perspective Mod v4",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["DJtheRedstoner"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
