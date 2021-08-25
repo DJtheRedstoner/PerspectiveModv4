@@ -27,3 +27,5 @@ meaning you will be kicked if you attempt to join with it. I am happy
 with this decision because it is being fairly enforced (the feature has
 been disabled in clients, not just blocked mods), and it is well within
 Hypixel's rights to change the rules and take measures to enforce them.
+I strongly discourage creating or using versions of this mod or any other
+mod to bypass blacklists on any server.
