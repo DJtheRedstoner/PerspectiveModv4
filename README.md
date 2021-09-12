@@ -21,11 +21,8 @@ Download the mod from the [releases](https://github.com/DJtheRedstoner/Perspecti
 
 # A note on Hypixel and this mod
 
-Hypixel recently updated their rules which makes this mod disallowed. 
-They have blocked this mod (and every other perspective mod's) modid,
-meaning you will be kicked if you attempt to join with it. I am happy
-with this decision because it is being fairly enforced (the feature has
-been disabled in clients, not just blocked mods), and it is well within
-Hypixel's rights to change the rules and take measures to enforce them.
-I strongly discourage creating or using versions of this mod or any other
-mod to bypass blacklists on any server.
+On the 19th of August, Hypixel updated their rules which made this mod disallowed. 
+They blocked this mod (and every other perspective mod's) modid,
+meaning you will be kicked if you attempt to join with it. However as of recent,
+this version of Perspective Mod has been unblacklisted. Regardless I strongly discourage creating or using
+versions of this mod or any other mod to bypass blacklists on any server.
