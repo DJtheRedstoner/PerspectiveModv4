@@ -1,24 +1,12 @@
-buildscript {
-    repositories {
-    	mavenCentral()
-        gradlePluginPortal()
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-        maven {
-            name = "jitpack"
-            url = "https://jitpack.io/"
-        }
-    }
-    dependencies {
-        classpath "com.github.asbyth:ForgeGradle:b13624b272"
-        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
-    }
-}
+import dev.architectury.pack200.java.Pack200Adapter
 
-apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "com.github.johnrengelman.shadow"
+plugins {
+    id 'idea'
+    id 'java'
+    id 'gg.essential.loom' version '0.10.0.+'
+    id 'dev.architectury.architectury-pack200' version '0.1.3'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
 
 group= "me.djtheredstoner"
 
@@ -32,11 +20,16 @@ sourceSets {
     }
 }
 
-minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
-    runDir = "run"
-    mappings = "stable_22"
-    clientJvmArgs += "-Dfml.coreMods.load=me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker"
+loom {
+    launchConfigs {
+        client {
+            property("fml.coreMods.load", "me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker")
+            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+        }
+    }
+    forge {
+        pack200Provider = new Pack200Adapter()
+    }
 }
 
 configurations {
@@ -52,9 +45,14 @@ repositories {
 }
 
 dependencies {
-    embed "gg.essential:loader-launchwrapper:1.1.0"
+    minecraft 'com.mojang:minecraft:1.8.9'
+    mappings 'de.oceanlabs.mcp:mcp_stable:22-1.8.9'
+    forge 'net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9'
+    
 
-    implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
+    embed "gg.essential:loader-launchwrapper:1.1.3"
+
+    implementation "gg.essential:essential-1.8.9-forge:4804+g97db1f45b"
 }
 
 jar {
@@ -77,26 +75,23 @@ shadowJar {
     )
 }
 
-reobfJar.dependsOn tasks.shadowJar
-
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-    }
+remapJar {
+    from shadowJar
+    input = shadowJar.archiveFile
 }
 
 processResources
 {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version
     }
         
     // copy everything else, thats not the mcmod.info

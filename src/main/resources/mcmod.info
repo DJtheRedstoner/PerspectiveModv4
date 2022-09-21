@@ -4,7 +4,7 @@
   "name": "Perspective Mod v4",
   "description": "",
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "1.8.9",
   "url": "",
   "updateUrl": "",
   "authorList": ["DJtheRedstoner"],
