@@ -7,6 +7,10 @@ buildscript {
             url = "https://maven.minecraftforge.net/"
         }
         maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+        maven {
             name = "jitpack"
             url = "https://jitpack.io/"
         }
@@ -14,11 +18,13 @@ buildscript {
     dependencies {
         classpath "com.github.asbyth:ForgeGradle:b13624b272"
         classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
+        classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'org.spongepowered.mixin'
 
 group= "me.djtheredstoner"
 
