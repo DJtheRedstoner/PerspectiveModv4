@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.6",
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.djtheredstoner.perspectivemod.mixins",
+  "refmap": "mixins.hypixelcry.refmap.json",
+  "mixins": [
+    "MixinFMLHandShake"
+  ],
+  "client": [
+  ]
+}

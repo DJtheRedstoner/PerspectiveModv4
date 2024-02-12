@@ -16,14 +16,14 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.github.asbyth:ForgeGradle:b13624b272"
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
         classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
         classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
     }
 }
 
+apply plugin: 'java'
 apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: 'org.spongepowered.mixin'
 
 group= "me.djtheredstoner"
@@ -52,43 +52,52 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url = "https://repo.sk1er.club/repository/maven-public/" }
-    maven { url = "https://jitpack.io/" }
-    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+    maven { url "https://jitpack.io" }
+    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
+    maven { url "https://repo.sk1er.club/repository/maven-public" }
+    maven { url "https://repo.sk1er.club/repository/maven-releases/" }
+    maven { url 'https://repo.polyfrost.cc/releases' }
 }
 
 dependencies {
-    embed "gg.essential:loader-launchwrapper:1.1.0"
+    compile 'org.spongepowered:spongeforge:1.8.9-1890-4.2.0-BETA-1625:dev'
+    compile("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+    annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+    implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT')
 
+    embed "gg.essential:loader-launchwrapper:1.1.0"
     implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
+
+    compileOnly('cc.polyfrost:oneconfig-1.8.9-forge:0.2.0-alpha+') // Should not be included in jar
+    compile('cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+') // Should be included in jar
+}
+
+mixin {
+    defaultObfuscationEnv searge
+    add sourceSets.main, "mixins.perspectivemod.refmap.json"
+}
+
+sourceSets {
+    main {
+        refMap = "mixins.perspectivemod.refmap.json"
+    }
 }
 
 jar {
-    enabled = false
-}
-
-shadowJar {
-    archiveClassifier.set("")
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    configurations = [project.configurations.embed]
-
     manifest.attributes(
-            'FMLCorePluginContainsFMLMod': true,
+
+            "FMLCorePluginContainsFMLMod": true,
+            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.FMLLoadingPlugin",
             "ForceLoadAsMod": true,
-            'ModSide': 'CLIENT',
-            "FMLCorePlugin": "me.djtheredstoner.perspectivemod.forge.PerspectiveModTweaker",
-            "TweakClass": "gg.essential.loader.stage0.EssentialSetupTweaker"
+            "MixinConfigs": "mixins.perspectivemod.json",
+            "ModSide": "CLIENT",
+            "TweakClass": "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker",
+            //"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "TweakOrder": "0"
     )
-}
-
-reobfJar.dependsOn tasks.shadowJar
-
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-    }
 }
 
 processResources

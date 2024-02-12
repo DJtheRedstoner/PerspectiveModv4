@@ -1,24 +1,22 @@
 package me.djtheredstoner.perspectivemod.config;
-
-import gg.essential.vigilance.Vigilant;
-import gg.essential.vigilance.data.Property;
-import gg.essential.vigilance.data.PropertyType;
+import cc.polyfrost.oneconfig.config.Config;
+import cc.polyfrost.oneconfig.config.annotations.Checkbox;
+import cc.polyfrost.oneconfig.config.data.Mod;
+import cc.polyfrost.oneconfig.config.data.ModType;
 
 import java.io.File;
 
-public class PerspectiveModConfig extends Vigilant {
+public class PerspectiveModConfig extends Config {
 
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Perspective Mod",
-        category = "General",
-        subcategory = "General",
-        description = "Toggle Perspective Mod entirely."
+    @Checkbox(
+            name = "Perspective Mod",
+            description = "Toggle Perspective Mod entirely.",
+            category = "General",
+            subcategory = "General"
     )
     public boolean modEnabled = true;
 
-    @Property(
-        type = PropertyType.SWITCH,
+    @Checkbox(
         name = "Hold Mode",
         category = "General",
         subcategory = "General",
@@ -26,8 +24,7 @@ public class PerspectiveModConfig extends Vigilant {
     )
     public boolean holdMode = true;
 
-    @Property(
-        type = PropertyType.SWITCH,
+    @Checkbox(
         name = "Invert Pitch",
         category = "General",
         subcategory = "General",
@@ -36,7 +33,7 @@ public class PerspectiveModConfig extends Vigilant {
     public boolean invertPitch = false;
 
     public PerspectiveModConfig() {
-        super(new File("./config/perspectivemodv4.toml"));
+        super(new Mod("FreeLook", ModType.UTIL_QOL, "/assets/logo.png"), "perspectivemodv4.json");
         initialize();
     }
 }

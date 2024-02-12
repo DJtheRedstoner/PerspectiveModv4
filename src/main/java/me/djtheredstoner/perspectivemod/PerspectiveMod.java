@@ -1,11 +1,9 @@
 package me.djtheredstoner.perspectivemod;
 
-import me.djtheredstoner.perspectivemod.commands.PerspectiveModCommand;
 import me.djtheredstoner.perspectivemod.config.PerspectiveModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -19,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-@Mod(modid = "cpshud", name = "Perspective Mod v4", version = "4.5", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
+@Mod(modid = "perspective", name = "Perspective Mod v4", version = "4.5", acceptedMinecraftVersions = "[1.8.9]", clientSideOnly = true)
 public class PerspectiveMod {
 
     @Mod.Instance
@@ -40,11 +38,8 @@ public class PerspectiveMod {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        config.preload();
 
         ClientRegistry.registerKeyBinding(perspectiveKey);
-        new PerspectiveModCommand("perspectivemod").register();
-        new PerspectiveModCommand("pmod").register();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
