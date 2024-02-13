@@ -11,6 +11,8 @@ jobs:
         with:
           java-version: 8.0.332+9
           distribution: 'adopt'
+      - name: Permission fix
+        run: chmod +x gradlew
       - name: Build
         run: ./gradlew build
       - name: Release
